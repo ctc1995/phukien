@@ -72,6 +72,10 @@ export class ProdMnGComponent implements OnInit{
     ){
         this.uploadImgLists=[];
     }
+    imageUploaded(v){
+        this.uploadImgLists.push(v.file);
+        console.log(this.uploadImgLists);
+    }
     upload() {
       const formData: any = new FormData();
       //上传多个图片
