@@ -1,4 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@swimlane/ngx-datatable/release/index.css';
+@import '~@swimlane/ngx-datatable/release/themes/material.css';
+@import '~@swimlane/ngx-datatable/release/assets/icons.css';
 body{
     margin: 0;
+}
+.age-is-ten{
+    cursor: pointer;
+}
+.datatable-header{
+    font-size: 18px;
+    padding-top: 4px;
+    background-color: #5bc0de;
+    color: #fff;
+}
+datatable-body-cell.datatable-body-cell.sort-active {
+    display: flex;
+    align-items: center;
+}
+.ngx-datatable.fixed-header .datatable-header .datatable-header-inner .datatable-header-cell{
+    color: #fff;
+    border-right: 1px solid;
+}
+.ngx-datatable.fixed-header .datatable-header .datatable-header-inner .datatable-header-cell:last-child{
+    border-right: none;
 }

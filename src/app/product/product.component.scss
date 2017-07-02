@@ -16,7 +16,10 @@
             width: 103%;
         }
     }
-    .fr-box.fr-basic .fr-element{
-        min-height: 80px;
+    .tab-content{
+        //隐藏富文本编辑器未激活状态提示（未实现目的）
+        .fr-box>div[style*="position"] {
+            display: none;
+        }
     }
 }

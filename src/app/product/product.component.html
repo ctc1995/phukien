@@ -1,13 +1,13 @@
 <section class="row main">
   <section class="col-md-2 col-sm-3 tab-nav">
     <h3 class="nav-title">功能菜单</h3>
-    <ul class="nav nav-pills nav-stacked">
-      <li role="presentation" [(ngClass)]="active" *ngFor="let item of tabLists">
-        <a routerLink="{{item.title}}">{{item.name}}</a>
+    <ul class="nav flex-column nav-pills">
+      <li class="nav-item" role="presentation" [(ngClass)]="active" *ngFor="let item of tabLists">
+        <a class="nav-link" routerLink="{{item.title}}">{{item.name}}</a>
       </li>
     </ul>
   </section>
-  <section class="col-md-10 col-sm-9">
+  <section class="col-md-10 col-sm-9 tab-content">
     <router-outlet></router-outlet>
   </section>
 </section>

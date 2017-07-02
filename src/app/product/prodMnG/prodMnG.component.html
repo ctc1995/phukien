@@ -1,0 +1,46 @@
+<section class="prod-mng">
+    <div class="form-group" style="margin-bottom:0">
+        <button class="btn btn-info" (click)="openProdModal(null)">新增产品</button>
+        <label for="type">商品搜索：</label>
+        <input
+            type='text'
+            style='padding:8px;margin:15px auto;width:30%;'
+            placeholder='输入商品名称自动查询...'
+            (keyup)='updateFilter($event)'
+        />
+    </div>
+    <ngx-datatable
+        #table
+        class="material striped"
+        [columns]="columns"
+        [columnMode]="'flex'"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [rowClass]="age-is-ten"
+        [limit]="10"
+        [rows]='rows'>
+        <ngx-datatable-column prop="name" name="姓名" [flexGrow]="1">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="gender" name="性别" [flexGrow]="1">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="age" name="年龄" [flexGrow]="1">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="操作" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <button class="btn btn-info" (click)="openProdModal(row)">查看</button>
+                <button class="btn btn-primary" (click)="openProdModal(row)">修改</button>
+                <button class="btn btn-danger">删除</button>
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+</section>

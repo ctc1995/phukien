@@ -10,15 +10,19 @@ export class ProductComponent implements OnInit {
   constructor() {
     this.tabLists=[
       {
-        "name":"1",
+        "name":"商品管理",
         "title":"one"
       },
       {
-        "name":"2",
+        "name":"类别管理",
         "title":"two"
       },
       {
-        "name":"3",
+        "name":"资讯管理",
+        "title":"news"
+      },
+      {
+        "name":"网站信息",
         "title":"three"
       }
     ]

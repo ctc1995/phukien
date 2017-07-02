@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
 
 import { ProductComponent } from './product.component'
-import { ProdMnGComponent } from './prodMnG.component'
+import { ProdMnGComponent } from './prodMnG/prodMnG.component'
 
 const routes:Routes=[
     {
