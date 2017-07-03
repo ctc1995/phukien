@@ -11,11 +11,11 @@ export class ProductComponent implements OnInit {
     this.tabLists=[
       {
         "name":"商品管理",
-        "title":"one"
+        "title":"prod"
       },
       {
         "name":"类别管理",
-        "title":"two"
+        "title":"type"
       },
       {
         "name":"资讯管理",
@@ -23,7 +23,7 @@ export class ProductComponent implements OnInit {
       },
       {
         "name":"网站信息",
-        "title":"three"
+        "title":"webinfo"
       }
     ]
   }

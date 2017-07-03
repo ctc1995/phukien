@@ -4,6 +4,9 @@ import { Routes, RouterModule } from '@angular/router'
 
 import { ProductComponent } from './product.component'
 import { ProdMnGComponent } from './prodMnG/prodMnG.component'
+import { TypeMnGComponent } from './typeMnG/typeMnG.component'
+import { NewsMnGComponent } from './newsMnG/newsMnG.component'
+import { WebInfoMnGComponent } from './webinfoMnG/webinfoMnG.component'
 
 const routes:Routes=[
     {
@@ -11,8 +14,20 @@ const routes:Routes=[
         component: ProductComponent,
         children:[
             {
-                path: 'one',
+                path: 'prod',
                 component: ProdMnGComponent
+            },
+            {
+                path: 'type',
+                component: TypeMnGComponent
+            },
+            {
+                path: 'news',
+                component: NewsMnGComponent
+            },
+            {
+                path: 'webinfo',
+                component: WebInfoMnGComponent
             }
         ]
     }

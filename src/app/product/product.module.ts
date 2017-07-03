@@ -8,7 +8,10 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 import { ProductRoutingModule } from './product-routing.module'
 import { ProductComponent }  from './product.component'
-import { ProdMnGComponent, AddProdModalContent } from './prodMnG/prodMnG.component'
+import { ProdMnGComponent, AddProdModalContent } from './prodMnG/prodMnG.component';
+import { TypeMnGComponent }  from './typeMnG/typeMnG.component';
+import { NewsMnGComponent } from './newsMnG/newsMnG.component'
+import { WebInfoMnGComponent } from './webinfoMnG/webinfoMnG.component'
 
 @NgModule({
   imports: [
@@ -24,7 +27,10 @@ import { ProdMnGComponent, AddProdModalContent } from './prodMnG/prodMnG.compone
   declarations: [
     ProductComponent,
     ProdMnGComponent,
-    AddProdModalContent
+    AddProdModalContent,
+    TypeMnGComponent,
+    NewsMnGComponent,
+    WebInfoMnGComponent
   ],
   entryComponents:[
     ProductComponent,
