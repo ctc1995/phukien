@@ -37,9 +37,12 @@
         </ngx-datatable-column>
         <ngx-datatable-column name="操作" [flexGrow]="1">
             <ng-template let-row="row" ngx-datatable-cell-template>
-                <button class="btn btn-info" (click)="openProdModal(row)">查看</button>
-                <button class="btn btn-primary" (click)="openProdModal(row)">修改</button>
-                <button class="btn btn-danger">删除</button>
+                <button class="btn btn-primary" (click)="openProdModal(row)" title="修改商品">
+                    <i class="iconfont icon-edit"></i>
+                </button>
+                <button class="btn btn-danger" title="删除商品">
+                    <i class="iconfont icon-delete"></i>
+                </button>
             </ng-template>
         </ngx-datatable-column>
     </ngx-datatable>

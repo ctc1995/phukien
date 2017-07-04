@@ -1,3 +1,75 @@
-<p>
-  typemng works!
-</p>
+<section class="row type">
+  <section class="col-md-3 type-tree"
+        (mouseenter)="navtoggle(true);"
+        (mouseleave)="navtoggle(false);">
+      <section class="list-header" >
+          Danh mục sản phẩm
+          <i class="glyphicon glyphicon-align-justify"></i>
+      </section>
+      <!--[ngClass]="navToggle?'':'hidden'"-->
+      <section class="list-body" [hidden]="!navToggle" [ngClass]="isToggle?'list-body-Collapse':''">
+          <li *ngFor="let item of treeLists let i = index" 
+              (mouseenter)="navExpand(i);"
+              (mouseleave)="navCollapse();"
+              (click)="onSelect(item.text)">
+              <p>
+                  <span class="tree-text">{{item.text}}</span>
+                  <span class="tree-descr">{{item.descr}}</span>
+              </p>
+              <i class="glyphicon glyphicon-menu-right"></i>
+              <section class="list-child" *ngIf="item['items'] && enterNumber == item.id">
+                  <section class="list-header list-child-header">
+                      {{item.text}}
+                  </section>
+                  <section class="list-body list-child-body">
+                      <li *ngFor="let childItem of item['items'] let i = index">
+                          <p>
+                              <span class="tree-text">{{childItem.text}}</span>
+                              <span class="tree-descr">{{childItem.descr}}</span>
+                          </p>
+                      </li>
+                  </section>
+              </section>
+          </li>
+      </section>
+  </section>
+  <section class="col-md-9 type-mng">
+    <section class="table table-bordered">
+      <ul class="theader">
+        <li class="th type-parent">上级分类</li>
+        <li class="th type-name">分类名称</li>
+        <li class="th type-info">分类描述</li>
+        <li class="th type-do">操作</li>
+      </ul>
+      <ul class="tr" *ngFor="let item of treeLists">
+          <li class="td type-parent">顶级分类</li>
+          <li class="td type-name">{{item.text}}</li>
+          <li class="td type-info">{{item.descr}}</li>
+          <li class="td type-do">
+            <button type="button" class="btn btn-info" title="增加下级分类">
+              <i class="iconfont icon-xiajiicon"></i>
+            </button>
+            <button type="button" class="btn btn-primary" title="修改分类">
+              <i class="iconfont icon-edit"></i>
+            </button>
+            <button type="button" class="btn btn-danger" title="删除分类">
+              <i class="iconfont icon-delete"></i>
+            </button>
+          </li>
+          <ul class="childs-type" *ngFor="let childItem of item.items">
+            <li class="childs-type-td type-parent">{{item.text}}</li>
+            <li class="childs-type-td type-name">{{childItem.text}}</li>
+            <li class="childs-type-td type-info">{{childItem.descr}}</li>
+            <li class="childs-type-td type-do">
+              <button type="button" class="btn btn-primary" title="修改分类">
+                <i class="iconfont icon-edit"></i>
+              </button>
+              <button type="button" class="btn btn-danger" title="删除分类">
+                <i class="iconfont icon-delete"></i>
+              </button>
+            </li>
+          </ul>
+      </ul>
+    </section>
+  </section>
+</section>
