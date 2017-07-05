@@ -12,57 +12,55 @@ import { GetHttp }  from '../../core/getHttp.service'
       </button>
     </div>
     <div class="modal-body">
-        <form>
-            <div class="form-group">
-                <label for="type">商品分类</label>
-                <select id="type" class="form-control">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
+        <div class="form-group">
+            <label for="type">商品分类</label>
+            <select id="type" class="form-control" [(ngModel)]="prodType">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>商品标签</label>
+            <div class="checkbox" >
+                <label>
+                    <input type="checkbox" [(ngModel)]="flag.one" [checked]="flag.one">one
+                </label>
+                <label>
+                    <input type="checkbox" [(ngModel)]="flag.two" [checked]="flag.two">two
+                </label>
+                <label>
+                    <input type="checkbox" [(ngModel)]="flag.three" [checked]="flag.three">three
+                </label>
             </div>
-            <div class="form-group">
-                <label>商品标签</label>
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox">one
-                    </label>
-                    <label>
-                        <input type="checkbox">two
-                    </label>
-                    <label>
-                        <input type="checkbox">three
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="name">商品名称</label>
-                <input type="text" class="form-control" id="name" placeholder="商品名称">
-            </div>
-            <div class="form-group">
-                <label for="price">商品价格</label>
-                <input type="text" class="form-control" id="price" placeholder="商品价格">
-            </div>
-            <div class="form-group">
-                <label>产品图片</label>
-                <image-upload
-                    [buttonCaption]="'选择图片'"
-                    [dropBoxMessage]="'将图片拖放到这里！'"
-                    (onFileUploadFinish)="imageUploaded($event)"
-                ></image-upload>
-                <button type="submit" (click)="upload()">提交</button>
-            </div>
-            <div class="form-group">
-                <label>简要描述</label>
-                <div [froalaEditor]="option1"  [(froalaModel)]="froalaText"></div>
-            </div>
-            <div class="form-group">
-                <label>详细描述</label>
-                <div [froalaEditor]="option2"  [(froalaModel)]="froalaText"></div>
-            </div>
-        </form>
+        </div>
+        <div class="form-group">
+            <label for="name">商品名称</label>
+            <input type="text" class="form-control" id="name" placeholder="商品名称"  [(ngModel)]="prodName">
+        </div>
+        <div class="form-group">
+            <label for="price">商品价格</label>
+            <input type="number" class="form-control" id="price" placeholder="商品价格" [(ngModel)]="prodPrice">
+        </div>
+        <div class="form-group">
+            <label>产品图片</label>
+            <image-upload
+                [buttonCaption]="'选择图片'"
+                [dropBoxMessage]="'将图片拖放到这里！'"
+                (onFileUploadFinish)="imageUploaded($event)"
+            ></image-upload>
+            <button type="submit" (click)="upload()">提交</button>
+        </div>
+        <div class="form-group">
+            <label>简要描述</label>
+            <div [froalaEditor]="option1"  [(froalaModel)]="froalaText1"></div>
+        </div>
+        <div class="form-group">
+            <label>详细描述</label>
+            <div [froalaEditor]="option2"  [(froalaModel)]="froalaText2"></div>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-primary" (click)="onContentChanged()">提交</button>
@@ -74,9 +72,19 @@ import { GetHttp }  from '../../core/getHttp.service'
 })
 export class AddProdModalContent {
     @Input() name;
+    flag: object = {
+        one: false,
+        two: false,
+        three: true
+    }
+    prodType : string;
+    prodName : string;
+    prodPrice: number;
+    prodFlag: Array<string>=[];
     //上传图片集合
     uploadImgLists: Array<File>;
-    froalaText: any;
+    froalaText1: any;
+    froalaText2: any;
     option1: any;
     option2: any;
     constructor(
@@ -105,7 +113,23 @@ export class AddProdModalContent {
       }
     }
     onContentChanged(){
-        console.log(this.froalaText)
+        let obj = {
+            "prodType": this.prodType,
+            "prodName": this.prodName,
+            "prodPrice": this.prodPrice,
+            "text1": this.froalaText1,
+            "text2": this.froalaText2
+        }
+        if(this.uploadImgLists.length != 0){
+            obj['imgUrl'] = this.uploadImgLists[0].name;
+        }
+        for(let key of Object.keys(this.flag)){
+            if(this.flag[key]){
+                this.prodFlag.push(key);
+            }
+        }
+        obj['prodFlag'] = this.prodFlag;
+        this.activeModal.dismiss(obj)
     }
     ngOnInit(){
         //富文本编辑器的配置
@@ -149,7 +173,6 @@ export class AddProdModalContent {
             imageUploadParam:"uploads[]",//接口其他传参,默认为file,
             imageUploadMethod:"POST",//POST/GET,
         }
-        
         console.log(this.name);
     }
 }
@@ -175,507 +198,28 @@ export class ProdMnGComponent{
     ){
         this.rows=[
             {
-                "name": "Ethel Price",
-                "gender": "female",
-                "company": "Johnson, Johnson and Partners, LLC CMP DDC",
-                "age": 22
-            },
-            {
-                "name": "Claudine Neal",
-                "gender": "female",
-                "company": "Sealoud",
-                "age": 55
-            },
-            {
-                "name": "Beryl Rice",
-                "gender": "female",
-                "company": "Velity",
-                "age": 67
-            },
-            {
-                "name": "Wilder Gonzales",
-                "gender": "male",
-                "company": "Geekko"
-            },
-            {
-                "name": "Georgina Schultz",
-                "gender": "female",
-                "company": "Suretech"
-            },
-            {
-                "name": "Carroll Buchanan",
-                "gender": "male",
-                "company": "Ecosys"
-            },
-            {
-                "name": "Valarie Atkinson",
-                "gender": "female",
-                "company": "Hopeli"
-            },
-            {
-                "name": "Schroeder Mathews",
-                "gender": "male",
-                "company": "Polarium"
-            },
-            {
-                "name": "Lynda Mendoza",
-                "gender": "female",
-                "company": "Dogspa"
-            },
-            {
-                "name": "Sarah Massey",
-                "gender": "female",
-                "company": "Bisba"
-            },
-            {
-                "name": "Robles Boyle",
-                "gender": "male",
-                "company": "Comtract"
-            },
-            {
-                "name": "Evans Hickman",
-                "gender": "male",
-                "company": "Parleynet"
-            },
-            {
-                "name": "Dawson Barber",
-                "gender": "male",
-                "company": "Dymi"
-            },
-            {
-                "name": "Bruce Strong",
-                "gender": "male",
-                "company": "Xyqag"
-            },
-            {
-                "name": "Nellie Whitfield",
-                "gender": "female",
-                "company": "Exospace"
-            },
-            {
-                "name": "Jackson Macias",
-                "gender": "male",
-                "company": "Aquamate"
-            },
-            {
-                "name": "Pena Pena",
-                "gender": "male",
-                "company": "Quarx"
-            },
-            {
-                "name": "Lelia Gates",
-                "gender": "female",
-                "company": "Proxsoft"
-            },
-            {
-                "name": "Letitia Vasquez",
-                "gender": "female",
-                "company": "Slumberia"
-            },
-            {
-                "name": "Trevino Moreno",
-                "gender": "male",
-                "company": "Conjurica"
-            },
-            {
-                "name": "Barr Page",
-                "gender": "male",
-                "company": "Apex"
-            },
-            {
-                "name": "Kirkland Merrill",
-                "gender": "male",
-                "company": "Utara"
-            },
-            {
-                "name": "Blanche Conley",
-                "gender": "female",
-                "company": "Imkan"
-            },
-            {
-                "name": "Atkins Dunlap",
-                "gender": "male",
-                "company": "Comveyor"
-            },
-            {
-                "name": "Everett Foreman",
-                "gender": "male",
-                "company": "Maineland"
-            },
-            {
-                "name": "Gould Randolph",
-                "gender": "male",
-                "company": "Intergeek"
-            },
-            {
-                "name": "Kelli Leon",
-                "gender": "female",
-                "company": "Verbus"
-            },
-            {
-                "name": "Freda Mason",
-                "gender": "female",
-                "company": "Accidency"
-            },
-            {
-                "name": "Tucker Maxwell",
-                "gender": "male",
-                "company": "Lumbrex"
-            },
-            {
-                "name": "Yvonne Parsons",
-                "gender": "female",
-                "company": "Zolar"
-            },
-            {
-                "name": "Woods Key",
-                "gender": "male",
-                "company": "Bedder"
-            },
-            {
-                "name": "Stephens Reilly",
-                "gender": "male",
-                "company": "Acusage"
-            },
-            {
-                "name": "Mcfarland Sparks",
-                "gender": "male",
-                "company": "Comvey"
-            },
-            {
-                "name": "Jocelyn Sawyer",
-                "gender": "female",
-                "company": "Fortean"
-            },
-            {
-                "name": "Renee Barr",
-                "gender": "female",
-                "company": "Kiggle"
-            },
-            {
-                "name": "Gaines Beck",
-                "gender": "male",
-                "company": "Sequitur"
-            },
-            {
-                "name": "Luisa Farrell",
-                "gender": "female",
-                "company": "Cinesanct"
-            },
-            {
-                "name": "Robyn Strickland",
-                "gender": "female",
-                "company": "Obones"
-            },
-            {
-                "name": "Roseann Jarvis",
-                "gender": "female",
-                "company": "Aquazure"
-            },
-            {
-                "name": "Johnston Park",
-                "gender": "male",
-                "company": "Netur"
-            },
-            {
-                "name": "Wong Craft",
-                "gender": "male",
-                "company": "Opticall"
-            },
-            {
-                "name": "Merritt Cole",
-                "gender": "male",
-                "company": "Techtrix"
-            },
-            {
-                "name": "Dale Byrd",
-                "gender": "female",
-                "company": "Kneedles"
-            },
-            {
-                "name": "Sara Delgado",
-                "gender": "female",
-                "company": "Netagy"
-            },
-            {
-                "name": "Alisha Myers",
-                "gender": "female",
-                "company": "Intradisk"
-            },
-            {
-                "name": "Felecia Smith",
-                "gender": "female",
-                "company": "Futurity"
-            },
-            {
-                "name": "Neal Harvey",
-                "gender": "male",
-                "company": "Pyramax"
-            },
-            {
-                "name": "Nola Miles",
-                "gender": "female",
-                "company": "Sonique"
-            },
-            {
-                "name": "Herring Pierce",
-                "gender": "male",
-                "company": "Geeketron"
-            },
-            {
-                "name": "Shelley Rodriquez",
-                "gender": "female",
-                "company": "Bostonic"
-            },
-            {
-                "name": "Cora Chase",
-                "gender": "female",
-                "company": "Isonus"
-            },
-            {
-                "name": "Mckay Santos",
-                "gender": "male",
-                "company": "Amtas"
-            },
-            {
-                "name": "Hilda Crane",
-                "gender": "female",
-                "company": "Jumpstack"
-            },
-            {
-                "name": "Jeanne Lindsay",
-                "gender": "female",
-                "company": "Genesynk"
-            },
-            {
-                "name": "Frye Sharpe",
-                "gender": "male",
-                "company": "Eplode"
-            },
-            {
-                "name": "Velma Fry",
-                "gender": "female",
-                "company": "Ronelon"
-            },
-            {
-                "name": "Reyna Espinoza",
-                "gender": "female",
-                "company": "Prismatic"
-            },
-            {
-                "name": "Spencer Sloan",
-                "gender": "male",
-                "company": "Comverges"
-            },
-            {
-                "name": "Graham Marsh",
-                "gender": "male",
-                "company": "Medifax"
-            },
-            {
-                "name": "Hale Boone",
-                "gender": "male",
-                "company": "Digial"
-            },
-            {
-                "name": "Wiley Hubbard",
-                "gender": "male",
-                "company": "Zensus"
-            },
-            {
-                "name": "Blackburn Drake",
-                "gender": "male",
-                "company": "Frenex"
-            },
-            {
-                "name": "Franco Hunter",
-                "gender": "male",
-                "company": "Rockabye"
-            },
-            {
-                "name": "Barnett Case",
-                "gender": "male",
-                "company": "Norali"
-            },
-            {
-                "name": "Alexander Foley",
-                "gender": "male",
-                "company": "Geekosis"
-            },
-            {
-                "name": "Lynette Stein",
-                "gender": "female",
-                "company": "Macronaut"
-            },
-            {
-                "name": "Anthony Joyner",
-                "gender": "male",
-                "company": "Senmei"
-            },
-            {
-                "name": "Garrett Brennan",
-                "gender": "male",
-                "company": "Bluegrain"
-            },
-            {
-                "name": "Betsy Horton",
-                "gender": "female",
-                "company": "Zilla"
-            },
-            {
-                "name": "Patton Small",
-                "gender": "male",
-                "company": "Genmex"
-            },
-            {
-                "name": "Lakisha Huber",
-                "gender": "female",
-                "company": "Insource"
-            },
-            {
-                "name": "Lindsay Avery",
-                "gender": "female",
-                "company": "Unq"
-            },
-            {
-                "name": "Ayers Hood",
-                "gender": "male",
-                "company": "Accuprint"
-            },
-            {
-                "name": "Torres Durham",
-                "gender": "male",
-                "company": "Uplinx"
-            },
-            {
-                "name": "Vincent Hernandez",
-                "gender": "male",
-                "company": "Talendula"
-            },
-            {
-                "name": "Baird Ryan",
-                "gender": "male",
-                "company": "Aquasseur"
-            },
-            {
-                "name": "Georgia Mercer",
-                "gender": "female",
-                "company": "Skyplex"
-            },
-            {
-                "name": "Francesca Elliott",
-                "gender": "female",
-                "company": "Nspire"
-            },
-            {
-                "name": "Lyons Peters",
-                "gender": "male",
-                "company": "Quinex"
-            },
-            {
-                "name": "Kristi Brewer",
-                "gender": "female",
-                "company": "Oronoko"
-            },
-            {
-                "name": "Tonya Bray",
-                "gender": "female",
-                "company": "Insuron"
-            },
-            {
-                "name": "Valenzuela Huff",
-                "gender": "male",
-                "company": "Applideck"
-            },
-            {
-                "name": "Tiffany Anderson",
-                "gender": "female",
-                "company": "Zanymax"
-            },
-            {
-                "name": "Jerri King",
-                "gender": "female",
-                "company": "Eventex"
-            },
-            {
-                "name": "Rocha Meadows",
-                "gender": "male",
-                "company": "Goko"
-            },
-            {
-                "name": "Marcy Green",
-                "gender": "female",
-                "company": "Pharmex"
-            },
-            {
-                "name": "Kirk Cross",
-                "gender": "male",
-                "company": "Portico"
-            },
-            {
-                "name": "Hattie Mullen",
-                "gender": "female",
-                "company": "Zilencio"
-            },
-            {
-                "name": "Deann Bridges",
-                "gender": "female",
-                "company": "Equitox"
-            },
-            {
-                "name": "Chaney Roach",
-                "gender": "male",
-                "company": "Qualitern"
-            },
-            {
-                "name": "Consuelo Dickson",
-                "gender": "female",
-                "company": "Poshome"
-            },
-            {
-                "name": "Billie Rowe",
-                "gender": "female",
-                "company": "Cemention"
-            },
-            {
-                "name": "Bean Donovan",
-                "gender": "male",
-                "company": "Mantro"
-            },
-            {
-                "name": "Lancaster Patel",
-                "gender": "male",
-                "company": "Krog"
-            },
-            {
-                "name": "Rosa Dyer",
-                "gender": "female",
-                "company": "Netility"
-            },
-            {
-                "name": "Christine Compton",
-                "gender": "female",
-                "company": "Bleeko"
-            },
-            {
                 "name": "Milagros Finch",
                 "gender": "female",
-                "company": "Handshake"
+                "company": "Handshake",
+                "age": 30
             },
             {
                 "name": "Ericka Alvarado",
                 "gender": "female",
-                "company": "Lyrichord"
+                "company": "Lyrichord",
+                "age": 25
             },
             {
                 "name": "Sylvia Sosa",
                 "gender": "female",
-                "company": "Circum"
+                "company": "Circum",
+                "age": 26
             },
             {
                 "name": "Humphrey Curtis",
                 "gender": "male",
-                "company": "Corepan"
+                "company": "Corepan",
+                "age": 28
             }
         ]
         this.temp=[...this.rows]
@@ -695,6 +239,16 @@ export class ProdMnGComponent{
     }
     openProdModal(row){
         const modalRef = this.modalService.open(AddProdModalContent);
+        modalRef.result.catch(red=>{
+            console.log(red);
+            let obj = {
+                "name": red.prodName,
+                "gender": red.prodFlag[0],
+                "company": red.prodType,
+                "age": red.prodPrice,
+            }
+            this.rows.push(obj);
+        })
         if(row){
             modalRef.componentInstance.name = row.name;
         }else{

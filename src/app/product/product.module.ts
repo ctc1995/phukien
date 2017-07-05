@@ -9,7 +9,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ProductRoutingModule } from './product-routing.module'
 import { ProductComponent }  from './product.component'
 import { ProdMnGComponent, AddProdModalContent } from './prodMnG/prodMnG.component';
-import { TypeMnGComponent }  from './typeMnG/typeMnG.component';
+import { TypeMnGComponent, AddTypeModalContent }  from './typeMnG/typeMnG.component';
 import { NewsMnGComponent } from './newsMnG/newsMnG.component'
 import { WebInfoMnGComponent } from './webinfoMnG/webinfoMnG.component'
 
@@ -29,13 +29,15 @@ import { WebInfoMnGComponent } from './webinfoMnG/webinfoMnG.component'
     ProdMnGComponent,
     AddProdModalContent,
     TypeMnGComponent,
+    AddTypeModalContent,
     NewsMnGComponent,
     WebInfoMnGComponent
   ],
   entryComponents:[
     ProductComponent,
     ProdMnGComponent,
-    AddProdModalContent
+    AddProdModalContent,
+    AddTypeModalContent,
   ]
 })
 export class ProductModule { }
