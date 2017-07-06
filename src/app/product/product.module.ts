@@ -10,7 +10,7 @@ import { ProductRoutingModule } from './product-routing.module'
 import { ProductComponent }  from './product.component'
 import { ProdMnGComponent, AddProdModalContent } from './prodMnG/prodMnG.component';
 import { TypeMnGComponent, AddTypeModalContent }  from './typeMnG/typeMnG.component';
-import { NewsMnGComponent } from './newsMnG/newsMnG.component'
+import { NewsMnGComponent, AddNewModalContent } from './newsMnG/newsMnG.component'
 import { WebInfoMnGComponent } from './webinfoMnG/webinfoMnG.component'
 
 @NgModule({
@@ -31,13 +31,16 @@ import { WebInfoMnGComponent } from './webinfoMnG/webinfoMnG.component'
     TypeMnGComponent,
     AddTypeModalContent,
     NewsMnGComponent,
+    AddNewModalContent,
     WebInfoMnGComponent
   ],
   entryComponents:[
     ProductComponent,
     ProdMnGComponent,
+    NewsMnGComponent,
     AddProdModalContent,
     AddTypeModalContent,
+    AddNewModalContent,
   ]
 })
 export class ProductModule { }

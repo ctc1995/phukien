@@ -1,0 +1,58 @@
+form{
+    .form-group{
+        border-bottom: 1px solid #eee;
+        padding: 0 20px 15px;
+        button{
+            cursor: pointer;
+        }
+    }
+}
+.modal-dialog{
+    max-width: none;
+    width: 70%;
+}
+.prod-mng{
+    margin: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    .card{
+        height: 200px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        background-color: rgb(255, 255, 255);
+        box-shadow: 3px 3px 1px #ddd;
+        border: 1px solid #eee;
+        margin: 20px 0;
+        position: relative;
+        .delete, .edit{
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            position: absolute;
+            top: 0;
+        }
+        .delete{
+            right: 0;
+            background-color: red;
+        }
+        .edit{
+            right: 35px;
+            background-color: #5bc0de;
+        }
+        .car-left{
+            display: flex;
+            border-right: 1px solid #ddd;
+            img{
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+}

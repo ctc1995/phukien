@@ -1,3 +1,21 @@
-<p>
-  news works!
-</p>
+<section class="prod-mng">
+    <div class="form-group" style="margin-bottom:0">
+        <button class="btn btn-primary" (click)="openProdModal(null)">新增资讯</button>
+        <button class="btn btn-info" (click)="showDelete()">编辑所有资讯</button>
+    </div>
+    <section class="card" *ngFor="let item of rows let i = index">
+      <i class="iconfont icon-delete delete" (click)="deleteItem(i)" [hidden]="showDeleteBtn"></i>
+      <i class="iconfont icon-edit edit" (click)="openProdModal(i)" [hidden]="showDeleteBtn"></i>
+      <section class="col-md-3 car-left">
+        <img src="{{item.imgUrl}}" alt="{{prodName}}">
+      </section>
+      <section class="col-md-9">
+        <p>{{item.newsTitle}}</p>
+        <p>{{item.newsContent}}</p>
+        <p>
+          <label>已关联商品名称：</label>
+          {{item.prodName}}
+        </p>
+      </section>
+    </section>
+</section>
