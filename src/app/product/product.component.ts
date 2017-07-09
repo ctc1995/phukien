@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductComponent implements OnInit {
   tabLists: Array<any>=[]
+  selectIndex: number = 0;
   constructor() {
     this.tabLists=[
       {
@@ -27,7 +28,9 @@ export class ProductComponent implements OnInit {
       }
     ]
   }
-
+  select(index){
+    this.selectIndex = index;
+  }
   ngOnInit() {
   }
   

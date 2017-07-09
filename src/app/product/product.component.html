@@ -1,8 +1,8 @@
 <section class="row main">
-  <section class="col-md-2 col-sm-3 tab-nav">
+  <section class="col-md-2 col-sm-2 tab-nav">
     <h3 class="nav-title">功能菜单</h3>
     <ul class="nav flex-column nav-pills">
-      <li class="nav-item" role="presentation" [(ngClass)]="active" *ngFor="let item of tabLists">
+      <li class="nav-item" role="presentation" *ngFor="let item of tabLists let i =index" [ngClass]="{'active': selectIndex == i}" (click)="select(i)">
         <a class="nav-link" routerLink="{{item.title}}">{{item.name}}</a>
       </li>
     </ul>

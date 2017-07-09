@@ -1,0 +1,19 @@
+.web-info{
+    margin: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    label{
+        font-size: 19px;
+        font-family: '黑体';
+        font-weight: 600;
+        color: #444;
+    }
+    .form-group{
+        padding: 15px;
+        margin: 0;
+        border-bottom: 1px solid #ddd;
+        .input-group{
+            width: 80%;
+        }
+    }
+}

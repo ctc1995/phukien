@@ -5,9 +5,10 @@
     margin: 0;
     .tab-nav{
         height: 100%;
-        background: rgba(238, 238, 238, 0.5);
+        background-color: rgb(72, 95, 106);
         box-shadow: 3px 3px 5px #ddd;
         padding: 0;
+        position: fixed;
         .nav-title{
             color: #fff;
             background-color: #337ab7;
@@ -15,8 +16,17 @@
             padding: 15px 0 13px 15px;
             width: 103%;
         }
+        .nav-pills{
+            li:hover, .active{
+                background-color: rgba(0, 0, 0, 0.31);
+            }
+            a{
+                color: #fff;
+            }
+        }
     }
     .tab-content{
+        margin-left: 16.7%;
         //隐藏富文本编辑器未激活状态提示（未实现目的）
         .fr-box>div[style*="position"] {
             display: none;
