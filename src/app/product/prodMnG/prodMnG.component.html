@@ -20,19 +20,29 @@
         [rowClass]="age-is-ten"
         [limit]="10"
         [rows]='rows'>
-        <ngx-datatable-column prop="name" name="姓名" [flexGrow]="1">
+        <ngx-datatable-column prop="name" name="名称" [flexGrow]="1">
             <ng-template let-value="value" ngx-datatable-cell-template>
             {{value}}
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column prop="gender" name="性别" [flexGrow]="1">
+        <ngx-datatable-column prop="price" name="价格" [flexGrow]="1">
             <ng-template let-value="value" ngx-datatable-cell-template>
             {{value}}
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column prop="age" name="年龄" [flexGrow]="1">
+        <ngx-datatable-column prop="type" name="分类" [flexGrow]="1">
             <ng-template let-value="value" ngx-datatable-cell-template>
             {{value}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="flag" name="标签" [flexGrow]="1">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="imgUrl" name="缩略图" [flexGrow]="1">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+            <img src="{{value}}" alt="缩略图" width="100%" height="100%">
             </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="操作" [flexGrow]="1">

@@ -10,21 +10,20 @@
       <section class="list-body" [hidden]="!navToggle" [ngClass]="isToggle?'list-body-Collapse':''">
           <li *ngFor="let item of treeLists let i = index" 
               (mouseenter)="navExpand(i);"
-              (mouseleave)="navCollapse();"
-              (click)="onSelect(item.text)">
+              (mouseleave)="navCollapse();">
               <p>
-                  <span class="tree-text">{{item.text}}</span>
+                  <span class="tree-text">{{item.name}}</span>
                   <span class="tree-descr">{{item.descr}}</span>
               </p>
               <i class="glyphicon glyphicon-menu-right"></i>
-              <section class="list-child" *ngIf="item['items'] && enterNumber == item.id">
+              <section class="list-child" *ngIf="item['items'] && forParent == item.name">
                   <section class="list-header list-child-header">
-                      {{item.text}}
+                      {{item.name}}
                   </section>
                   <section class="list-body list-child-body">
                       <li *ngFor="let childItem of item['items'] let i = index">
                           <p>
-                              <span class="tree-text">{{childItem.text}}</span>
+                              <span class="tree-text">{{childItem.name}}</span>
                               <span class="tree-descr">{{childItem.descr}}</span>
                           </p>
                       </li>
@@ -37,7 +36,7 @@
     <button type="button" 
             class="btn btn-large btn-block btn-info" 
             style="cursor:pointer;"
-            (click)="addParentType(1)">
+            (click)="addParentType()">
             新增顶级分类
     </button>
     <section class="table table-bordered">
@@ -47,30 +46,30 @@
         <li class="th type-info">分类描述</li>
         <li class="th type-do">操作</li>
       </ul>
-      <ul class="tr" *ngFor="let item of treeLists">
-          <li class="td type-parent">顶级分类</li>
-          <li class="td type-name">{{item.text}}</li>
+      <ul class="tr" *ngFor="let item of treeLists let i = index">
+          <li class="td type-parent">{{item.parent}}</li>
+          <li class="td type-name">{{item.name}}</li>
           <li class="td type-info">{{item.descr}}</li>
           <li class="td type-do">
-            <button type="button" class="btn btn-info" title="增加下级分类">
+            <button type="button" class="btn btn-info" title="增加下级分类" (click)="addChild(i)">
               <i class="iconfont icon-xiajiicon"></i>
             </button>
-            <button type="button" class="btn btn-primary" title="修改分类">
+            <button type="button" class="btn btn-primary" title="修改分类" (click)="editItem(i, null)">
               <i class="iconfont icon-edit"></i>
             </button>
-            <button type="button" class="btn btn-danger" title="删除分类">
+            <button type="button" class="btn btn-danger" title="删除分类" (click)="deleteItem(i, null)">
               <i class="iconfont icon-delete"></i>
             </button>
           </li>
-          <ul class="childs-type" *ngFor="let childItem of item.items">
-            <li class="childs-type-td type-parent">{{item.text}}</li>
-            <li class="childs-type-td type-name">{{childItem.text}}</li>
+          <ul class="childs-type" *ngFor="let childItem of item.items let j = index">
+            <li class="childs-type-td type-parent">{{childItem.parent}}</li>
+            <li class="childs-type-td type-name">{{childItem.name}}</li>
             <li class="childs-type-td type-info">{{childItem.descr}}</li>
             <li class="childs-type-td type-do">
-              <button type="button" class="btn btn-primary" title="修改分类">
+              <button type="button" class="btn btn-primary" title="修改分类" (click)="editItem(i, j)">
                 <i class="iconfont icon-edit"></i>
               </button>
-              <button type="button" class="btn btn-danger" title="删除分类">
+              <button type="button" class="btn btn-danger" title="删除分类" (click)="deleteItem(i, j)">
                 <i class="iconfont icon-delete"></i>
               </button>
             </li>
