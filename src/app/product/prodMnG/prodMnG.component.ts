@@ -72,7 +72,7 @@ import { GetHttp }  from '../../core/getHttp.service'
 })
 export class AddProdModalContent {
     @Input() name;
-    flag: object = {
+    flag: Object = {
         one: false,
         two: false,
         three: true
@@ -238,6 +238,7 @@ export class ProdMnGComponent{
         this.table.offset = 0;
     }
     openProdModal(row){
+        console.log(row)
         const modalRef = this.modalService.open(AddProdModalContent);
         modalRef.result.catch(red=>{
             console.log(red);
