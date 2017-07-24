@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+
+import { SharpService } from '../../../assets/sharp.service'
 import { GetHttp }  from '../../core/getHttp.service'
 
 @Component({
@@ -7,13 +9,15 @@ import { GetHttp }  from '../../core/getHttp.service'
   styleUrls: ['./webinfoMnG.component.scss']
 })
 export class WebInfoMnGComponent implements OnInit {
+  webInfo: Array<any>;
   //Logo图片上传对象
   uploadLogo: Array<File>;
   //轮播图上传对象
   uploadCor: Array<File>;
 
   constructor(
-    private getHttp: GetHttp
+    private getHttp: GetHttp,
+    private sharpService: SharpService,
   ) {
     this.uploadLogo=[];
     this.uploadCor=[];
@@ -56,7 +60,16 @@ export class WebInfoMnGComponent implements OnInit {
       }
     }
   }
+  getWebInfo(){
+    this.getHttp.getData(null, this.sharpService.API.getWebInfo).subscribe(
+      res=>{
+        console.log(res);
+        this.webInfo = res;
+      }
+    )
+  }
   ngOnInit() {
+    this.getWebInfo();
   }
 
 }

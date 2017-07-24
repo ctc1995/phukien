@@ -13,5 +13,11 @@ export class SharpService {
         postType: this.httpHader + this.address + "post/type",
         getType: this.httpHader + this.address + "get/type",
         putType: this.httpHader + this.address + "put/type",
+        postNews: this.httpHader + this.address + "post/news",
+        getNews: this.httpHader + this.address + "get/news",
+        putNews: this.httpHader + this.address + "put/news",
+        postWebInfo: this.httpHader + this.address + "post/webInfo",
+        getWebInfo: this.httpHader + this.address + "get/webInfo",
+        putWebInfo: this.httpHader + this.address + "put/webInfo",
     }
 }

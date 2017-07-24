@@ -1,6 +1,10 @@
-<section class="web-info">
+<section class="web-info" *ngFor="let item of webInfo">
   <section class="form-group">
-  <label>优惠信息</label>
+    <label>优惠信息</label>
+    <section class="nowContent">
+      <span>目前内容：</span>
+      <p>{{item.youhui}}</p>
+    </section>
     <div class="input-group">
       <input type="text" class="form-control" placeholder="请填写优惠信息" maxlength="40">
       <span class="input-group-btn">
@@ -9,7 +13,11 @@
     </div>
   </section>
   <section class="form-group">
-  <label>地址</label>
+    <label>地址</label>
+    <section class="nowContent">
+      <span>目前内容：</span>
+      <p>{{item.address}}</p>
+    </section>
     <div class="input-group">
       <input type="text" class="form-control" placeholder="请填写地址" maxlength="60">
       <span class="input-group-btn">
@@ -18,7 +26,11 @@
     </div>
   </section>
   <section class="form-group">
-  <label>网站名称</label>
+    <label>网站名称</label>
+    <section class="nowContent">
+      <span>目前内容：</span>
+      <p>{{item.name}}</p>
+    </section>
     <div class="input-group">
       <input type="text" class="form-control" placeholder="请填写网站名称" maxlength="20">
       <span class="input-group-btn">
@@ -27,7 +39,14 @@
     </div>
   </section>
   <section class="form-group">
-  <label>热线电话</label>
+    <label>热线电话</label>
+    <section class="nowContent">
+      <span>目前内容：</span>
+      <p *ngFor="let phone of item.phone">
+        联系人：{{phone.name}}
+        电话：{{phone.number}}
+      </p>
+    </section>
     <div class="input-group">
       <input type="text" class="form-control" placeholder="请填写热线电话">
       <span class="input-group-btn">
@@ -37,24 +56,45 @@
   </section>
   <section class="form-group">
     <label>网站Logo</label>
+    <section class="nowContent">
+      <span>目前内容：</span>
+      <p>
+        <img
+         src="{{item.logo}}" 
+         alt="logo" 
+         width="100px" 
+         height="100px">
+      </p>
+    </section>
     <div class="input-group">
       <image-upload
             [buttonCaption]="'选择图片'"
             [dropBoxMessage]="'将图片拖放到这里！'"
             (onFileUploadFinish)="uploadFunc('logo', $event)"
       ></image-upload>
-      <button type="submit" (click)="upload('logo')">提交</button>
+      <button class="btn btn-primary" type="submit" (click)="upload('logo')">提交</button>
     </div>
   </section>
   <section class="form-group">
     <label>首页轮播图</label>
+    <section class="nowContent">
+      <span>目前内容：</span>
+      <p>
+        <img 
+          src="{{lunbo.url}}" 
+          alt="{{lunbo.name}}" 
+          width="100px" 
+          height="100px"
+          *ngFor="let lunbo of item.lunbo">
+      </p>
+    </section>
     <div class="input-group">
       <image-upload
             [buttonCaption]="'选择图片'"
             [dropBoxMessage]="'将图片拖放到这里！'"
             (onFileUploadFinish)="uploadFunc('cor', $event)"
       ></image-upload>
-      <button type="submit" (click)="upload('cor')">提交</button>
+      <button class="btn btn-primary" type="submit" (click)="upload('cor')">提交</button>
     </div>
   </section>
 </section>

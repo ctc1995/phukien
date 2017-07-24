@@ -121,7 +121,7 @@ export class AddProdModalContent {
             "descr": this.froalaText2
         }
         if(this.uploadImgLists.length != 0){
-            obj['imgUrl'] = 'http://omly572p2.bkt.clouddn.com/'+this.uploadImgLists[0].name+'-img1';
+            obj['imgUrl'] = 'http://image.phukienthanh.shop/'+this.uploadImgLists[0].name;
         }
         for(let key of Object.keys(this.flag)){
             if(this.flag[key]){
@@ -180,7 +180,7 @@ export class AddProdModalContent {
                 }
             },
             // 上传图片文件配置
-            imageUploadURL:"http://192.168.30.105:3000/post/img",//本地路径
+            imageUploadURL:"http://10.28.83.150:3000/post/img",//本地路径
             imageUploadParam:"uploads[]",//接口其他传参,默认为file,
             imageUploadMethod:"POST",//POST/GET,
         }
@@ -239,20 +239,23 @@ export class ProdMnGComponent{
         this.table.offset = 0;
     }
     openProdModal(row){
+        console.log(row)
         const modalRef = this.modalService.open(AddProdModalContent);
         modalRef.result.catch(red=>{
             console.log(red);
-            this.rows.push(red);
-            let postData = this.http.post('http://192.168.30.103:3000/post/product',red).map(
-                res=>{
-                    return res;
-                }
-            )
-            postData.subscribe(
-                res=>{
-                    console.log(res);
-                }
-            )
+            if(red['name']){
+                this.rows.push(red);
+                let postData = this.http.post('http://10.28.83.150:3000/post/product',red).map(
+                    res=>{
+                        return res;
+                    }
+                )
+                postData.subscribe(
+                    res=>{
+                        console.log(res);
+                    }
+                )
+            }
         })
         if(row){
             console.log(row)

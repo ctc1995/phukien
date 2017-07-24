@@ -29,8 +29,7 @@ export class GetHttp{
             }
         )
     }
-    public getType(query){
-        let api = this.sharpService.API.getType 
+    public getData(query, api){
         if(query){
             api += "?name=" + query
         }
@@ -40,8 +39,7 @@ export class GetHttp{
             }
         )
     }
-    public postType(data){
-        let api = this.sharpService.API.postType
+    public postData(data, api){
         let headers = new Headers({
             "Content-Type": "application/json"
         })
@@ -51,8 +49,7 @@ export class GetHttp{
             }
         )
     }
-    public putType(data){
-        let api = this.sharpService.API.putType
+    public putData(data, api){
         let headers = new Headers({
             "Content-Type": "application/json"
         })

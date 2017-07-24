@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { GetHttp }  from '../../core/getHttp.service'
+import { SharpService } from '../../../assets/sharp.service'
 @Component({
   template: `
     <div class="modal-header">
@@ -85,75 +86,14 @@ export class TypeMnGComponent implements OnInit {
     resJSON: Object;
     constructor(
             private modalService: NgbModal,
-            private getHttp: GetHttp
-        ) { 
-        /*this.treeLists =  [
-            {
-                id: 1,
-                text: "Favorites",
-                descr: "computer-icons favorites",
-                items: [
-                    { id: 11, pid: 1, text: "Desktop", descr: "computer-icons empty-doc" },
-                    { id: 11, pid: 1, text: "Desktop", descr: "computer-icons empty-doc" },
-                    { id: 11, pid: 1, text: "Desktop", descr: "computer-icons empty-doc" },
-                    { id: 12, pid: 1, text: "Downloads", descr: "computer-icons downloads" }
-                ]
-            },
-            {
-                id: 2,
-                text: "Favorites",
-                descr: "computer-icons favorites",
-                items: [
-                    { id: 11, pid: 2, text: "Desktop", descr: "computer-icons empty-doc" },
-                    { id: 12, pid: 2, text: "Downloads", descr: "computer-icons downloads" }
-                ]
-            },
-            {
-                id: 3,
-                text: "Computer",
-                descr: "computer-icons pc",
-                expanded: false,
-                items: [
-                    { id: 31, pid: 3, text: "Local Disk (C:)", descr: "computer-icons disk" },
-                    { id: 32, pid: 3, text: "Storage (D:)", descr: "computer-icons disk" }
-                ]
-            },
-            { id: 4, text: "Network", descr: "computer-icons network", items: []},
-            { id: 5, text: "Recycle Bin", descr: "computer-icons recycle", items: [] },
-            {
-                id: 6,
-                text: "Favorites",
-                descr: "computer-icons favorites",
-                items: [
-                    { id: 11, pid: 6, text: "Desktop", descr: "computer-icons empty-doc" },
-                    { id: 12, pid: 6, text: "Downloads", descr: "computer-icons downloads" }
-                ]
-            },
-            {
-                id: 7,
-                text: "Favorites",
-                descr: "computer-icons favorites",
-                items: [
-                    { id: 11, pid: 7, text: "Desktop", descr: "computer-icons empty-doc" },
-                    { id: 12, pid: 7, text: "Downloads", descr: "computer-icons downloads" }
-                ]
-            },
-            {
-                id: 8,
-                text: "Favorites",
-                descr: "computer-icons favorites",
-                items: [
-                    { id: 11, pid: 8, text: "Desktop", descr: "computer-icons empty-doc" },
-                    { id: 12, pid: 8, text: "Downloads", descr: "computer-icons downloads" }
-                ]
-            },
-        ];*/
-    }
+            private getHttp: GetHttp,
+            private sharpService: SharpService
+        ) {}
     ngOnInit() {
         this.getTypeLists();
     }
     getTypeLists(){
-        this.getHttp.getType(null).subscribe(
+        this.getHttp.getData(null, this.sharpService.API.getType).subscribe(
             res=>{
                 this.treeLists = res;
             }
@@ -182,7 +122,7 @@ export class TypeMnGComponent implements OnInit {
             if(red["parent"]=="顶级分类"){
                 red['items'] = [];
                 this.treeLists.push(red);
-                this.getHttp.postType(red).subscribe(
+                this.getHttp.postData(red, this.sharpService.API.postType).subscribe(
                     res=>{
                         console.log(res);
                     }
@@ -196,7 +136,7 @@ export class TypeMnGComponent implements OnInit {
                         item.items.push(red);
                     }
                 }
-                this.getHttp.putType(this.treeLists[index]).subscribe(
+                this.getHttp.putData(this.treeLists[index], this.sharpService.API.putType).subscribe(
                     res=>{
                         console.log(res);
                     }
@@ -219,7 +159,7 @@ export class TypeMnGComponent implements OnInit {
                     item.items.push(red);
                 }
             }
-            this.getHttp.putType(this.treeLists[index]).subscribe(
+            this.getHttp.putData(this.treeLists[index], this.sharpService.API.putType).subscribe(
                 res=>{
                     console.log(res);
                 }
@@ -242,7 +182,7 @@ export class TypeMnGComponent implements OnInit {
                 for(let item of this.treeLists[parentIndex].items){
                     item.parent = red.name
                 }
-                this.getHttp.putType(this.treeLists[parentIndex]).subscribe(
+                this.getHttp.putData(this.treeLists[parentIndex], this.sharpService.API.putType).subscribe(
                     res=>{
                         console.log(res);
                     }
@@ -253,7 +193,7 @@ export class TypeMnGComponent implements OnInit {
             modalRef.result.catch(red=>{
                 this.treeLists[parentIndex].items[childIndex].name = red.name;
                 this.treeLists[parentIndex].items[childIndex].descr = red.descr;
-                this.getHttp.putType(this.treeLists[parentIndex]).subscribe(
+                this.getHttp.putData(this.treeLists[parentIndex], this.sharpService.API.putType).subscribe(
                     res=>{
                         console.log(res);
                     }
