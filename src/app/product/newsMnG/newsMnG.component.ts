@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, Input, ViewEncapsulation } from '@angular
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { GetHttp }  from '../../core/getHttp.service'
+import { SharpService } from '../../../assets/sharp.service'
 
 //模态框组件
 @Component({
@@ -15,11 +16,11 @@ import { GetHttp }  from '../../core/getHttp.service'
     <div class="modal-body">
         <div class="form-group">
             <label>资讯标题</label>
-            <input type="text" class="form-control" placeholder="请输入资讯标题"  [(ngModel)]="newsTitle">
+            <input type="text" class="form-control" placeholder="请输入资讯标题"  [(ngModel)]="title">
         </div>
         <div class="form-group">
             <label >资讯内容</label>
-            <textarea class="form-control" rows="3" placeholder="请输入资讯内容"  [(ngModel)]="newsContent"></textarea>
+            <textarea class="form-control" rows="3" placeholder="请输入资讯内容"  [(ngModel)]="content"></textarea>
         </div>
         <div class="form-group">
             <label>关联到商品</label>
@@ -32,7 +33,6 @@ import { GetHttp }  from '../../core/getHttp.service'
               [dropBoxMessage]="'将图片拖放到这里！'"
               (onFileUploadFinish)="imageUploaded($event)"
           ></image-upload>
-          <button type="submit" (click)="upload()">提交</button>
         </div>
     </div>
     <div class="modal-footer">
@@ -45,8 +45,8 @@ import { GetHttp }  from '../../core/getHttp.service'
 })
 export class AddNewModalContent {
     @Input() item;
-    newsTitle : string;
-    newsContent : string;
+    title : string;
+    content : string;
     prodName: string;
     //上传图片集合
     uploadImgLists: Array<File> = [];
@@ -75,20 +75,21 @@ export class AddNewModalContent {
     }
     onContentChanged(){
         let obj = {
-            "newsTitle": this.newsTitle,
-            "newsContent": this.newsContent,
+            "title": this.title,
+            "content": this.content,
             "prodName": this.prodName,
         }
         if(this.uploadImgLists.length != 0){
-            obj['imgUrl'] = '../../../assets/image/' + this.uploadImgLists[0].name;
+            obj['imgUrl'] = 'http://image.phukienthanh.shop/' + this.uploadImgLists[0].name + "-img1";
         }
+        this.upload();
         this.activeModal.dismiss(obj)
     }
     ngOnInit(){
-        console.log(this.item);
+        console.log(JSON.stringify(this.item));
         if(this.item){
-          this.newsTitle = this.item['newsTitle']
-          this.newsContent = this.item['newsContent']
+          this.title = this.item['title']
+          this.content = this.item['content']
           this.prodName = this.item['prodName']
         }
     }
@@ -104,34 +105,11 @@ export class NewsMnGComponent{
   rows = [];
   showDeleteBtn:boolean = true;
   constructor(
-      private modalService: NgbModal
+        private modalService: NgbModal,
+        private getHttp: GetHttp,
+        private sharpService: SharpService
   ){
-      this.rows=[
-          {
-              "newsTitle": "XE XIAOMI NINEBOT MINI CHÍNH HÃNG XIAOMI HTTP://PHUKIENVIETTRUNG.VN/",
-              "newsContent": "http://phukienviettrung.vn/",
-              "prodName": "Handshake",
-              "imgUrl": '../../../assets/image/1.jpg'
-          },
-          {
-              "newsTitle": "IN ẤN, KHẮC DA TẤT CẢ CÁC SẢN PHẨM ỐP LƯNG BAO DA THEO YÊU CẦU",
-              "newsContent": "PHỤ KIỆN VIỆT TRUNG Chuyên phân phối BUÔN SỈ LẺ linh phụ kiện điện thoại máy tính bảng GIÁ RẺ NHẤT. LIÊN HỆ MUA HÀNG: 09648.33333(MR. VIỆT) 0961.760.888 (MR DƯƠNG) 01686.133.888( MS. THÚY HẰNG) CAM KẾT 100% HÀI LÒNG",
-              "prodName": "Lyrichord",
-              "imgUrl": '../../../assets/image/2.jpg'
-          },
-          {
-              "newsTitle": "NHẬN BIẾT PIN SẠC DỰ PHÒNG XIAOMI FAKE VÀ CHÍNH HÃNG !!!",
-              "newsContent": "",
-              "prodName": "Circum",
-              "imgUrl": '../../../assets/image/5.jpg'
-          },
-          {
-              "newsTitle": "HƯỚNG DẪN MUA HÀNG",
-              "newsContent": "Hướng dẫn mua hàng",
-              "prodName": "Corepan",
-              "imgUrl": '../../../assets/image/4.jpg'
-          }
-      ]
+      this.getNews();
   }
   showDelete(){
     this.showDeleteBtn = !this.showDeleteBtn;
@@ -140,18 +118,30 @@ export class NewsMnGComponent{
     this.rows.splice(index, 1);
     console.log(this.rows[index]);
   }
+  getNews(){
+      this.getHttp.getData(null, this.sharpService.API.getNews).subscribe(
+          res=>{
+              this.rows = res
+          }
+      )
+  }
   openProdModal(itemIndex){
     const modalRef = this.modalService.open(AddNewModalContent);
     modalRef.result.catch(red=>{
-      console.log(red)
-      if(red.newsTitle||red.newsContent||red.prodName||red.imgUrl){
+    //console.log(red)
+      if(red.title||red.content||red.prodName||red.imgUrl){
         let obj = {
-          "newsTitle": red.newsTitle,
-          "newsContent": red.newsContent,
+          "title": red.title,
+          "content": red.content,
           "prodName": red.prodName,
           "imgUrl": red.imgUrl,
         }
         this.rows.push(obj);
+        this.getHttp.postData(obj, this.sharpService.API.postNews).subscribe(
+            res=>{
+                console.log(res);
+            }
+        )
       }
     })
     if(this.rows[itemIndex]){

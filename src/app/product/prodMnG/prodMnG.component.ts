@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, Input, ViewEncapsulation } from '@angular/core'
+import { Http } from '@angular/http'
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent }  from '@swimlane/ngx-datatable/src/components/datatable.component'
 
@@ -7,7 +8,7 @@ import { GetHttp }  from '../../core/getHttp.service'
   template: `
     <div class="modal-header">
       <h4 class="modal-title">商品添加</h4>
-      <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <button type="button" class="close" aria-label="Close" (click)="activeModal.close('Close click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -51,7 +52,6 @@ import { GetHttp }  from '../../core/getHttp.service'
                 [dropBoxMessage]="'将图片拖放到这里！'"
                 (onFileUploadFinish)="imageUploaded($event)"
             ></image-upload>
-            <button type="submit" (click)="upload()">提交</button>
         </div>
         <div class="form-group">
             <label>简要描述</label>
@@ -71,8 +71,8 @@ import { GetHttp }  from '../../core/getHttp.service'
     styleUrls:['./prodMnG.component.scss']
 })
 export class AddProdModalContent {
-    @Input() name;
-    flag: Object = {
+    @Input() row;
+    flag: object = {
         one: false,
         two: false,
         three: true
@@ -114,22 +114,33 @@ export class AddProdModalContent {
     }
     onContentChanged(){
         let obj = {
-            "prodType": this.prodType,
-            "prodName": this.prodName,
-            "prodPrice": this.prodPrice,
-            "text1": this.froalaText1,
-            "text2": this.froalaText2
+            "type": this.prodType,
+            "name": this.prodName,
+            "price": this.prodPrice,
+            "jianjie": this.froalaText1,
+            "descr": this.froalaText2
         }
         if(this.uploadImgLists.length != 0){
-            obj['imgUrl'] = this.uploadImgLists[0].name;
+            obj['imgUrl'] = 'http://image.phukienthanh.shop/'+this.uploadImgLists[0].name;
         }
         for(let key of Object.keys(this.flag)){
             if(this.flag[key]){
                 this.prodFlag.push(key);
             }
         }
-        obj['prodFlag'] = this.prodFlag;
+        obj['flag'] = this.prodFlag;
         this.activeModal.dismiss(obj)
+        this.upload();
+    }
+    setInterval(){
+        if(this.row){
+            this.prodType = this.row.type;
+            this.prodName = this.row.name;
+            this.prodPrice = this.row.price;
+            this.froalaText1 = this.row.jianjie;
+            this.froalaText2 = this.row.descr;
+            this.prodFlag = this.row.flag.split(',');
+        }
     }
     ngOnInit(){
         //富文本编辑器的配置
@@ -169,11 +180,11 @@ export class AddProdModalContent {
                 }
             },
             // 上传图片文件配置
-            imageUploadURL:"http://192.168.30.105:3000/post/img",//本地路径
+            imageUploadURL:"http://10.28.83.150:3000/post/img",//本地路径
             imageUploadParam:"uploads[]",//接口其他传参,默认为file,
             imageUploadMethod:"POST",//POST/GET,
         }
-        console.log(this.name);
+        //this.setInterval();
     }
 }
 
@@ -188,41 +199,31 @@ export class ProdMnGComponent{
     offset = 0;
     columns = [
         { prop: 'name' },
-        { name: 'Company' },
-        { name: 'Gender' }
+        { name: 'price' },
+        { name: 'type' },
+        { name: 'flag' },
+        { name: 'imgUrl' }
     ];
     
     @ViewChild('table') table: DatatableComponent;
     constructor(
-        private modalService: NgbModal
+        private modalService: NgbModal,
+        private http: Http,
+        private getHttp: GetHttp
     ){
-        this.rows=[
-            {
-                "name": "Milagros Finch",
-                "gender": "female",
-                "company": "Handshake",
-                "age": 30
-            },
-            {
-                "name": "Ericka Alvarado",
-                "gender": "female",
-                "company": "Lyrichord",
-                "age": 25
-            },
-            {
-                "name": "Sylvia Sosa",
-                "gender": "female",
-                "company": "Circum",
-                "age": 26
-            },
-            {
-                "name": "Humphrey Curtis",
-                "gender": "male",
-                "company": "Corepan",
-                "age": 28
+        this.getProdLists();
+    }
+    getProdLists(){
+        this.getHttp.getProd(null).subscribe(
+            res=>{
+                for(let item of res){
+                    let obj = item['flag'].join(',');
+                    item['flag'] = obj;
+                }
+                this.rows = res;
+                this.temp = [...this.rows];
             }
-        ]
-        this.temp=[...this.rows]
+        )
     }
     updateFilter(event) {
         const val = event.target.value.toLowerCase();
@@ -242,18 +243,25 @@ export class ProdMnGComponent{
         const modalRef = this.modalService.open(AddProdModalContent);
         modalRef.result.catch(red=>{
             console.log(red);
-            let obj = {
-                "name": red.prodName,
-                "gender": red.prodFlag[0],
-                "company": red.prodType,
-                "age": red.prodPrice,
+            if(red['name']){
+                this.rows.push(red);
+                let postData = this.http.post('http://10.28.83.150:3000/post/product',red).map(
+                    res=>{
+                        return res;
+                    }
+                )
+                postData.subscribe(
+                    res=>{
+                        console.log(res);
+                    }
+                )
             }
-            this.rows.push(obj);
         })
         if(row){
-            modalRef.componentInstance.name = row.name;
+            console.log(row)
+            modalRef.componentInstance.row = row;
         }else{
-            modalRef.componentInstance.name = null;
+            modalRef.componentInstance.row = null;
         }
     }
 }
