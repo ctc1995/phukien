@@ -9,6 +9,9 @@ import { GetHttp }  from '../../core/getHttp.service'
   styleUrls: ['./webinfoMnG.component.scss']
 })
 export class WebInfoMnGComponent implements OnInit {
+  Youhui:string;
+  Address:string;
+  WebName:string;
   webInfo: Array<any>;
   webInfoNew: Object;
   phone: Object;
@@ -76,6 +79,17 @@ export class WebInfoMnGComponent implements OnInit {
     )
   }
   updateData(){
+    console.log(this.webInfo);
+    if(this.Youhui){
+      this.webInfo[0]['youhui'] = this.Youhui;
+    }
+    if(this.Address){
+      this.webInfo[0]['address'] = this.Address;
+    }
+    if(this.WebName){
+      this.webInfo[0]['name'] = this.WebName;
+    }
+    
     if(this.webInfo[0]['phone'].length != 0){
       let phoneNameArray=[];
       for(let item of this.webInfo[0]['phone']){
@@ -103,11 +117,11 @@ export class WebInfoMnGComponent implements OnInit {
       this.webInfo[0]['phone'].push(this.phone)
     }
     console.log(this.webInfo);
-    this.getHttp.putData(this.webInfo[0], this.sharpService.API.putWebInfo).subscribe(
-      res=>{
-        console.log(res);
-      }
-    )
+    // this.getHttp.putData(this.webInfo[0], this.sharpService.API.putWebInfo).subscribe(
+    //   res=>{
+    //     console.log(res);
+    //   }
+    // )
   }
   ngOnInit() {
     this.getWebInfo();

@@ -63,14 +63,10 @@ export class GetHttp{
         let headers = new Headers({
             "Content-Type": "application/json"
         })
-        if(query){
-            api += "?title=" + query
-        }else{
-            return null;
-        }
-        return this.http.delete(api, {headers:headers}).map(
+        let Api = api + "?name=" + query;
+        return this.http.delete(Api).map(
             res=>{
-                return res.json() || {}
+                return res
             }
         )
     }

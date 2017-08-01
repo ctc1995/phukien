@@ -3,6 +3,7 @@ import { Http } from '@angular/http'
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent }  from '@swimlane/ngx-datatable/src/components/datatable.component'
 
+import { SharpService } from '../../../assets/sharp.service'
 import { GetHttp }  from '../../core/getHttp.service'
 @Component({
   template: `
@@ -15,15 +16,14 @@ import { GetHttp }  from '../../core/getHttp.service'
     <div class="modal-body">
         <div class="form-group">
             <label for="type">商品分类</label>
-            <select id="type" class="form-control" [(ngModel)]="prodType">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+            <select id="type" class="form-control" 
+                [(ngModel)]="prodType">
+                <option *ngFor="let item of prodTypeArray">
+                {{item.name}}
+                </option>
             </select>
         </div>
-        <div class="form-group">
+        <div class="form-group" style="display:none;">
             <label>商品标签</label>
             <div class="checkbox" >
                 <label>
@@ -77,6 +77,7 @@ export class AddProdModalContent {
         two: false,
         three: true
     }
+    prodTypeArray : Array<string>=[];
     prodType : string;
     prodName : string;
     prodPrice: number;
@@ -89,9 +90,11 @@ export class AddProdModalContent {
     option2: any;
     constructor(
         public activeModal: NgbActiveModal,
+        private sharpService: SharpService,
         private getHttp: GetHttp
     ) {
         this.uploadImgLists=[];
+        this.getType();
     }
   //将已导入的图片存入待上传数组
     imageUploaded(v){
@@ -111,6 +114,15 @@ export class AddProdModalContent {
           }
         )
       }
+    }
+    getType(){
+        console.log(11);
+        this.getHttp.getData(null, this.sharpService.API.getType).subscribe(
+            res=>{
+                console.log(res);
+                this.prodTypeArray = res;
+            }
+        )
     }
     onContentChanged(){
         let obj = {
@@ -180,7 +192,7 @@ export class AddProdModalContent {
                 }
             },
             // 上传图片文件配置
-            imageUploadURL:"http://10.28.83.150:3000/post/img",//本地路径
+            imageUploadURL:"http://www.phukienthanh.shop:3000/post/img",//本地路径
             imageUploadParam:"uploads[]",//接口其他传参,默认为file,
             imageUploadMethod:"POST",//POST/GET,
         }
@@ -209,7 +221,8 @@ export class ProdMnGComponent{
     constructor(
         private modalService: NgbModal,
         private http: Http,
-        private getHttp: GetHttp
+        private getHttp: GetHttp,
+        private sharpService: SharpService,
     ){
         this.getProdLists();
     }
@@ -238,6 +251,18 @@ export class ProdMnGComponent{
         // Whenever the filter changes, always go back to the first page
         this.table.offset = 0;
     }
+    delProd(row){
+        let isTrue = window.confirm("确认删除"+row['name']+"？");
+        if(isTrue){
+            this.getHttp.delData(row['name'], this.sharpService.API.delProd).subscribe(
+                res=>{
+                    console.log(res);
+                    this.rows.splice(this.rows.indexOf(row),1)
+                }
+            )
+        }
+        
+    }
     openProdModal(row){
         console.log(row)
         const modalRef = this.modalService.open(AddProdModalContent);
@@ -245,7 +270,7 @@ export class ProdMnGComponent{
             console.log(red);
             if(red['name']){
                 this.rows.push(red);
-                let postData = this.http.post('http://10.28.83.150:3000/post/product',red).map(
+                let postData = this.http.post('http://www.phukienthanh.shop:3000/post/product',red).map(
                     res=>{
                         return res;
                     }

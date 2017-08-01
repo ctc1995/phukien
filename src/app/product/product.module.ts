@@ -14,6 +14,8 @@ import { ProdMnGComponent, AddProdModalContent } from './prodMnG/prodMnG.compone
 import { TypeMnGComponent, AddTypeModalContent }  from './typeMnG/typeMnG.component';
 import { NewsMnGComponent, AddNewModalContent } from './newsMnG/newsMnG.component'
 import { WebInfoMnGComponent } from './webinfoMnG/webinfoMnG.component'
+import { GetHttp } from '../core/getHttp.service'
+import { SharpService } from '../../assets/sharp.service'
 
 @NgModule({
   imports: [
@@ -45,7 +47,9 @@ import { WebInfoMnGComponent } from './webinfoMnG/webinfoMnG.component'
     AddNewModalContent,
   ],
   providers:[
-    AuthGuard
+    AuthGuard,
+    GetHttp,
+    SharpService
   ]
 })
 export class ProductModule { }
