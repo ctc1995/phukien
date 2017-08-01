@@ -115,8 +115,15 @@ export class NewsMnGComponent{
     this.showDeleteBtn = !this.showDeleteBtn;
   }
   deleteItem(index){
-    console.log(this.rows[index]);
-    this.rows.splice(index, 1);
+    let del = window.confirm("确定删除“"+this.rows[index]['title']+"”？")
+    if(del){
+        this.getHttp.delData(this.rows[index]['title'], this.sharpService.API.delNews).subscribe(
+            res=>{
+                console.log(res);
+                this.rows.splice(index, 1);
+            }
+        )
+    }
   }
   getNews(){
       this.getHttp.getData(null, this.sharpService.API.getNews).subscribe(

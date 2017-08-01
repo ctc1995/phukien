@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
+import { slideInDownAnimation } from '../core/animation'
 
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
-  styleUrls: ['./product.component.scss']
+  styleUrls: ['./product.component.scss'],
+  animations: [slideInDownAnimation]
 })
 export class ProductComponent implements OnInit {
   tabLists: Array<any>=[]

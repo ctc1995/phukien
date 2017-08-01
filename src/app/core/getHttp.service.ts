@@ -59,4 +59,19 @@ export class GetHttp{
             }
         )
     }
+    public delData(query, api){
+        let headers = new Headers({
+            "Content-Type": "application/json"
+        })
+        if(query){
+            api += "?title=" + query
+        }else{
+            return null;
+        }
+        return this.http.delete(api, {headers:headers}).map(
+            res=>{
+                return res.json() || {}
+            }
+        )
+    }
 }

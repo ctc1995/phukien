@@ -6,9 +6,13 @@
       <p>{{item.youhui}}</p>
     </section>
     <div class="input-group">
-      <input type="text" class="form-control" placeholder="请填写优惠信息" maxlength="40">
+      <input type="text" 
+        class="form-control" 
+        placeholder="请填写优惠信息" 
+        maxlength="40"
+        [(ngModel)]="webInfoNew.youhui">
       <span class="input-group-btn">
-        <button class="btn btn-primary" type="button">更新</button>
+        <button class="btn btn-primary" type="button" (click)="updateData()">更新</button>
       </span>
     </div>
   </section>
@@ -19,9 +23,13 @@
       <p>{{item.address}}</p>
     </section>
     <div class="input-group">
-      <input type="text" class="form-control" placeholder="请填写地址" maxlength="60">
+      <input type="text" 
+        class="form-control" 
+        placeholder="请填写地址" 
+        maxlength="60"
+        [(ngModel)]="webInfoNew.address">
       <span class="input-group-btn">
-        <button class="btn btn-primary" type="button">更新</button>
+        <button class="btn btn-primary" type="button" (click)="updateData()">更新</button>
       </span>
     </div>
   </section>
@@ -32,9 +40,13 @@
       <p>{{item.name}}</p>
     </section>
     <div class="input-group">
-      <input type="text" class="form-control" placeholder="请填写网站名称" maxlength="20">
+      <input type="text" 
+        class="form-control" 
+        placeholder="请填写网站名称" 
+        maxlength="20"
+        [(ngModel)]="webInfoNew.name">
       <span class="input-group-btn">
-        <button class="btn btn-primary" type="button">更新</button>
+        <button class="btn btn-primary" type="button" (click)="updateData()">更新</button>
       </span>
     </div>
   </section>
@@ -42,17 +54,32 @@
     <label>热线电话</label>
     <section class="nowContent">
       <span>目前内容：</span>
-      <p *ngFor="let phone of item.phone">
-        联系人：{{phone.name}}
-        电话：{{phone.number}}
-      </p>
+      <section *ngFor="let phone of item.phone">
+        <p *ngFor="let number of phone.number">
+          联系人：{{phone.name}}
+          电话：{{number}}
+        </p>
+      </section>
     </section>
-    <div class="input-group">
-      <input type="text" class="form-control" placeholder="请填写热线电话">
-      <span class="input-group-btn">
-        <button class="btn btn-primary" type="button">更新</button>
-      </span>
-    </div>
+    <section class="col-md-12 phone">
+      <div class="input-group col-md-3">
+        <span>负责人：</span>
+        <input type="text" 
+          class="form-control" 
+          placeholder="请填写热线负责人"
+          [(ngModel)]="phoneName">
+      </div>
+      <div class="input-group col-md-6">
+        <span>电话号码：</span>
+        <input type="text" 
+          class="form-control" 
+          placeholder="请填写热线电话"
+          [(ngModel)]="phoneNumber">
+        <span class="input-group-btn">
+          <button class="btn btn-primary" type="button" (click)="updateData()">更新</button>
+        </span>
+      </div>
+    </section>
   </section>
   <section class="form-group">
     <label>网站Logo</label>
@@ -81,8 +108,7 @@
       <span>目前内容：</span>
       <p>
         <img 
-          src="{{lunbo.url}}" 
-          alt="{{lunbo.name}}" 
+          src="{{lunbo}}"
           width="100px" 
           height="100px"
           *ngFor="let lunbo of item.lunbo">

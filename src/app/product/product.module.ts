@@ -7,6 +7,8 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg'
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 import { ProductRoutingModule } from './product-routing.module'
+import { AuthGuard } from '../core/auth-guard.service'
+import { slideInDownAnimation } from '../core/animation'
 import { ProductComponent }  from './product.component'
 import { ProdMnGComponent, AddProdModalContent } from './prodMnG/prodMnG.component';
 import { TypeMnGComponent, AddTypeModalContent }  from './typeMnG/typeMnG.component';
@@ -41,6 +43,9 @@ import { WebInfoMnGComponent } from './webinfoMnG/webinfoMnG.component'
     AddProdModalContent,
     AddTypeModalContent,
     AddNewModalContent,
+  ],
+  providers:[
+    AuthGuard
   ]
 })
 export class ProductModule { }

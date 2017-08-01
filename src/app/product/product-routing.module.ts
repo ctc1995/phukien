@@ -8,6 +8,7 @@ import { TypeMnGComponent } from './typeMnG/typeMnG.component'
 import { NewsMnGComponent } from './newsMnG/newsMnG.component'
 import { WebInfoMnGComponent } from './webinfoMnG/webinfoMnG.component'
 
+import { AuthGuard } from '../core/auth-guard.service'
 const routes:Routes=[
     {
         path: '',
@@ -15,19 +16,23 @@ const routes:Routes=[
         children:[
             {
                 path: 'prod',
-                component: ProdMnGComponent
+                component: ProdMnGComponent,
+                canActivate:[AuthGuard]
             },
             {
                 path: 'type',
-                component: TypeMnGComponent
+                component: TypeMnGComponent,
+                canActivate:[AuthGuard]
             },
             {
                 path: 'news',
-                component: NewsMnGComponent
+                component: NewsMnGComponent,
+                canActivate:[AuthGuard]
             },
             {
                 path: 'webinfo',
-                component: WebInfoMnGComponent
+                component: WebInfoMnGComponent,
+                canActivate:[AuthGuard]
             }
         ]
     }
