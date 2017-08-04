@@ -16,9 +16,8 @@ import { GetHttp }  from '../../core/getHttp.service'
     <div class="modal-body">
         <div class="form-group">
             <label for="type">商品分类</label>
-            <select id="type" class="form-control" 
-                [(ngModel)]="prodType">
-                <option *ngFor="let item of prodTypeArray">
+            <select id="type" class="form-control" [(ngModel)]="prodType" >
+                <option [value]="item.name" *ngFor="let item of prodTypeArray">
                 {{item.name}}
                 </option>
             </select>
@@ -42,8 +41,8 @@ import { GetHttp }  from '../../core/getHttp.service'
             <input type="text" class="form-control" id="name" placeholder="商品名称"  [(ngModel)]="prodName">
         </div>
         <div class="form-group">
-            <label for="price">商品价格</label>
-            <input type="number" class="form-control" id="price" placeholder="商品价格" [(ngModel)]="prodPrice">
+            <label for="price">商品价格<span>(请加上货币符号例如：$,₫,￥)</span></label>
+            <input type="text" class="form-control" id="price" placeholder="商品价格" [(ngModel)]="prodPrice">
         </div>
         <div class="form-group">
             <label>产品图片</label>
@@ -92,7 +91,7 @@ export class AddProdModalContent {
         public activeModal: NgbActiveModal,
         private sharpService: SharpService,
         private getHttp: GetHttp
-    ) {
+    ) { 
         this.uploadImgLists=[];
         this.getType();
     }
@@ -108,11 +107,11 @@ export class AddProdModalContent {
       //上传多图情况下，采用多次发送请求方式上传
       for(let item of this.uploadImgLists){
         formData.append("uploads[]", item, item['name']);
-        this.getHttp.upImage(formData).subscribe(
-          files => {
-            console.log('files', files)
-          }
-        )
+        // this.getHttp.upImage(formData).subscribe(
+        //   files => {
+        //     console.log('files', files)
+        //   }
+        // )
       }
     }
     getType(){
@@ -125,6 +124,7 @@ export class AddProdModalContent {
         )
     }
     onContentChanged(){
+        console.log(this.prodType);
         let obj = {
             "type": this.prodType,
             "name": this.prodName,
@@ -270,16 +270,16 @@ export class ProdMnGComponent{
             console.log(red);
             if(red['name']){
                 this.rows.push(red);
-                let postData = this.http.post('http://www.phukienthanh.shop:3000/post/product',red).map(
-                    res=>{
-                        return res;
-                    }
-                )
-                postData.subscribe(
-                    res=>{
-                        console.log(res);
-                    }
-                )
+                // let postData = this.http.post('http://www.phukienthanh.shop:3000/post/product',red).map(
+                //     res=>{
+                //         return res;
+                //     }
+                // )
+                // postData.subscribe(
+                //     res=>{
+                //         console.log(res);
+                //     }
+                // )
             }
         })
         if(row){
